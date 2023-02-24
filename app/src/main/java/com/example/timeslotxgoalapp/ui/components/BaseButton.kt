@@ -1,0 +1,57 @@
+package com.example.timeslotxgoalapp.ui.components
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.timeslotxgoalapp.ui.theme.ActiveButtonColor
+import com.example.timeslotxgoalapp.ui.theme.DisabledButtonColor
+
+@Composable
+fun StartButton(
+    modifier: Modifier = Modifier,
+    buttonText: String,
+    onClick: () -> Unit,
+    enableStartButton: Boolean
+) {
+    val buttonColor = if (enableStartButton) {
+        ActiveButtonColor
+    } else DisabledButtonColor
+    Button(
+        modifier = modifier
+            .fillMaxWidth()
+        //.clickable { onClick() }
+        ,
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(buttonColor), onClick = {
+            onClick()
+        }, enabled = enableStartButton
+    ) {
+        Text(
+            modifier = Modifier.padding(vertical = 2.dp),
+            text = buttonText,
+            fontSize = 16.sp,
+            fontWeight = FontWeight(700),
+            color = Color.White
+        )
+    }
+}
+
+@Preview
+@Composable
+fun BaseButtonPreview() {
+    StartButton(
+        buttonText = "START",
+        onClick = {},
+        enableStartButton = false
+    )
+}
