@@ -17,25 +17,22 @@ import androidx.compose.ui.unit.sp
 import com.example.timeslotxgoalapp.ui.theme.ActiveButtonColor
 import com.example.timeslotxgoalapp.ui.theme.DescriptionTextColor
 import com.example.timeslotxgoalapp.R
+import kotlin.math.roundToInt
 
 @Composable
 fun Timer(
-    modifier: Modifier = Modifier,
-    onclick: () -> Unit,
-    timerText: String,
-    timerProgress: Float
+    modifier: Modifier = Modifier, onclick: () -> Unit, timerText: String, timerProgress: Float
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
         //.padding(40.dp)
-        ,
-        contentAlignment = Alignment.Center
+        , contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(210.dp)
+                .size(250.dp)
                 .clickable { onclick() },
             color = ActiveButtonColor,
             progress = timerProgress,
@@ -51,9 +48,30 @@ fun Timer(
     }
 }
 
+// TODO calculate percentage
 @Composable
-fun TimerText(isEnabled: Boolean, hasStarted: Boolean, timePercentage: String) {
-    Text(text = stringResource(id = R.string.disabled_timer_text))
+fun TimerText(
+    isEnabled: Boolean,
+    hasStarted: Boolean,
+    timePercentage: Float,
+    tagText: String,
+    timerText: String,
+) {
+    val tag = tagText.split(" ").last()
+    val percentage = (timePercentage * 100).roundToInt().toString() + "%"
+    val text =
+        if (!isEnabled) stringResource(id = R.string.disabled_timer_text) else if (hasStarted) stringResource(
+            id = R.string.started_timer_text, percentage
+        )  else stringResource(
+            id = R.string.enabled_timer_text, tag, timerText
+        )
+    Text(text = text)
+
+}
+
+@Composable
+fun CompletedTimerText() {
+    Text(text = stringResource(id = R.string.completed_timer_goal))
 }
 
 @Preview

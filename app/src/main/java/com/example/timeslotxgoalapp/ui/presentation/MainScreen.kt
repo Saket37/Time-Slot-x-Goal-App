@@ -1,10 +1,7 @@
 package com.example.timeslotxgoalapp.ui.presentation
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,24 +39,45 @@ fun MainScreenContent(uiState: AppState, handleEvent: (event: TimeEvent) -> Unit
     }
 
     Column(
-        modifier = Modifier.padding(top = 70.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(top = 80.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Timer(
-            onclick = { if (!uiState.isRunning) handleEvent(TimeEvent.OnShowTimerDialog) },
-            timerText = uiState.time,
-            timerProgress = uiState.progress
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        TimerText(isEnabled = false, hasStarted = false, timePercentage = "20%")
-        Spacer(modifier = Modifier.height(48.dp))
-        TagDescriptionText()
-        Spacer(modifier = Modifier.height(16.dp))
-        Tags(tagText = { handleEvent(TimeEvent.OnTagChanged(it)) })
-        Text(text = uiState.tags)
-
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 10.dp)
+        ) {
+            Timer(
+                onclick = { if (!uiState.isRunning) handleEvent(TimeEvent.OnShowTimerDialog) },
+                timerText = uiState.time,
+                timerProgress = uiState.progress
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            if (uiState.hasFinished) {
+                CompletedTimerText()
+            } else {
+                TimerText(
+                    isEnabled = uiState.isDisabled(),
+                    hasStarted = uiState.isRunning,
+                    timePercentage = uiState.progress,
+                    tagText = uiState.tags,
+                    timerText = uiState.initialStartTime,
+                )
+            }
+            Spacer(modifier = Modifier.height(48.dp))
+            if (uiState.isRunning || uiState.hasFinished) {
+                Goals(tag = uiState.tags, timerText = uiState.initialStartTime)
+            } else {
+                TagDescriptionText()
+                Spacer(modifier = Modifier.height(16.dp))
+                Tags(tagText = { handleEvent(TimeEvent.OnTagChanged(it)) })
+            }
+        }
         BaseButton(
             modifier = Modifier.padding(bottom = 24.dp, start = 24.dp, end = 24.dp),
+            buttonText = uiState.buttonText,
             onClick = {
                 if (!((uiState.seconds ?: 0) == 0 && (uiState.minutes ?: 0) == 0 && (uiState.hours
                         ?: 0) == 0)
@@ -68,7 +86,9 @@ fun MainScreenContent(uiState: AppState, handleEvent: (event: TimeEvent) -> Unit
                         handleEvent(TimeEvent.StartTimer)
                     } else handleEvent(TimeEvent.CancelTimer)
                 }
-            }, enableStartButton = uiState.isDisabled(), isRunning = uiState.isRunning
+            },
+            enableStartButton = uiState.isDisabled(),
+            isRunning = uiState.isRunning, hasCompleted = uiState.hasFinished
         )
     }
 }

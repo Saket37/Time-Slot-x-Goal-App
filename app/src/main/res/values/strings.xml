@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Time Slot X Goal App</string>
     <string name="disabled_timer_text">Tap on the circle above to set your time</string>
-    <string name="enabled_timer_text">You’ll be studying Physics for %s</string>
+    <string name="enabled_timer_text">You’ll be studying %s for %s</string>
     <string name="started_timer_text">Great going! You’ve completed %s of your goal</string>
+    <string name="completed_timer_goal">Well done! You’ve achieved your goal.</string>
+    <string name="goals_text">%s for %s</string>
 </resources>

@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,20 +23,21 @@ import com.example.timeslotxgoalapp.ui.theme.EndButtonColor
 fun BaseButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    enableStartButton: Boolean, isRunning: Boolean
+    enableStartButton: Boolean, isRunning: Boolean, buttonText: String, hasCompleted: Boolean
 ) {
+
     val buttonColor = if (isRunning) {
         EndButtonColor
     } else ActiveButtonColor
 
-    val buttonText = if (isRunning) "END" else "START"
     Button(
         modifier = modifier
-            .fillMaxWidth()
-        //.clickable { onClick() }
-        ,
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(buttonColor), onClick = {
+        colors = ButtonDefaults.buttonColors(
+            buttonColor,
+            disabledBackgroundColor = DisabledButtonColor
+        ), onClick = {
             onClick()
         }, enabled = enableStartButton
     ) {
@@ -53,6 +56,6 @@ fun BaseButton(
 fun BaseButtonPreview() {
     BaseButton(
         onClick = {},
-        enableStartButton = false, isRunning = false
+        enableStartButton = false, isRunning = false, buttonText = "START", hasCompleted = false
     )
 }

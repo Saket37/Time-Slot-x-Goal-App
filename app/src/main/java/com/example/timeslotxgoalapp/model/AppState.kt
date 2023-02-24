@@ -5,13 +5,16 @@ data class AppState(
     var seconds: Int = 0,
     var minutes: Int = 0,
     var hours: Int = 0,
-    var progress: Float = 0f,
+    val progress: Float = 0f,
     var time: String = "00:00:00",
     var showDialog: Boolean = false,
     var tags: String = "Select Tag",
-    val percentage: String = ""
+    val buttonText: String = "START",
+    val hasFinished: Boolean = false,
+    val initialStartTime: String = ""
 ) {
     fun isDisabled(): Boolean {
         return time != "00:00:00" && tags != "Select Tag"
     }
+    //TODO Enable New goal button
 }

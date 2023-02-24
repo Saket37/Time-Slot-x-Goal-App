@@ -6,4 +6,5 @@ sealed class TimeEvent {
     object StartTimer : TimeEvent()
     object CancelTimer : TimeEvent()
     data class OnTagChanged(val tag: String) : TimeEvent()
+    object OnNewGoalClicked : TimeEvent()
 }

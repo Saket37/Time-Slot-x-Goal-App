@@ -13,8 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
     private var countDownTimer: CountDownTimer? = null
-    //var totalTime = 0L
-
+    // TODO move string to strings and call them in viewModel
     private val _uiState = MutableStateFlow(AppState())
     val uiState get() = _uiState
 
@@ -26,6 +25,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
         countDownTimer = object : CountDownTimer(totalTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                //Seconds
                 val secs = (millisUntilFinished / MSECS_IN_SEC % SECS_IN_MINUTES).toInt()
                 if (secs != _uiState.value.seconds) {
                     _uiState.value = _uiState.value
@@ -42,17 +42,24 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 if (hours != _uiState.value.hours) {
                     _uiState.value = _uiState.value.copy(hours = hours)
                 }
-// TODO handle progress
+                // TODO handle progress value correctly
                 _uiState.value =
                     _uiState.value.copy(
                         isRunning = true,
                         progress = 1f - millisUntilFinished.toFloat() / totalTime.toFloat(),
-                        time = formatHourMinuteSecond(hours, minutes, secs)
+                        time = formatHourMinuteSecond(hours, minutes, secs),
+                        buttonText = "END",
                     )
             }
 
             override fun onFinish() {
-                _uiState.value = _uiState.value.copy(isRunning = false, progress = 1f)
+                _uiState.value =
+                    _uiState.value.copy(
+                        isRunning = false,
+                        progress = 1f,
+                        buttonText = "New Goal",
+                        hasFinished = true
+                    )
             }
 
         }.start()
@@ -69,7 +76,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
             hours = 0,
             minutes = 0,
             time = "00:00:00",
-            progress = 0f
+            progress = 0f, tags = "Select Tag", buttonText = "START"
         )
     }
 
@@ -91,7 +98,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
             showDialog = false,
             hours = hour,
             minutes = minutes,
-            seconds = seconds, time = formatHourMinuteSecond(hour, minutes, seconds)
+            seconds = seconds,
+            time = formatHourMinuteSecond(hour, minutes, seconds),
+            initialStartTime = "$hour hr $minutes min"
         )
     }
 
@@ -114,6 +123,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 cancelTimer()
             }
             is TimeEvent.OnTagChanged -> tagChange(event.tag)
+            is TimeEvent.OnNewGoalClicked -> {}
         }
     }
 
