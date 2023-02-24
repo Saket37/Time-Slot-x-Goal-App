@@ -34,7 +34,7 @@ fun TagDescriptionText() {
 }
 
 @Composable
-fun Tags() {
+fun Tags(tagText: (String) -> Unit) {
     val expanded = remember {
         mutableStateOf(false)
     }
@@ -51,6 +51,7 @@ fun Tags() {
             list.forEach {
                 DropdownMenuItem(onClick = {
                     currentValue.value = it
+                    tagText(it)
                     expanded.value = false
                 }) {
                     Text(text = it)

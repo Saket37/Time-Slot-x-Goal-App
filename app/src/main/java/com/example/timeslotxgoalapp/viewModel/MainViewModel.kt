@@ -42,7 +42,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 if (hours != _uiState.value.hours) {
                     _uiState.value = _uiState.value.copy(hours = hours)
                 }
-
+// TODO handle progress
                 _uiState.value =
                     _uiState.value.copy(
                         isRunning = true,
@@ -63,7 +63,14 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     private fun cancelTimer() {
         countDownTimer?.cancel()
-        _uiState.value = _uiState.value.copy(isRunning = false)
+        _uiState.value = _uiState.value.copy(
+            isRunning = false,
+            seconds = 0,
+            hours = 0,
+            minutes = 0,
+            time = "00:00:00",
+            progress = 0f
+        )
     }
 
     private fun getSeconds() =
@@ -88,6 +95,10 @@ class MainViewModel @Inject constructor() : ViewModel() {
         )
     }
 
+    private fun tagChange(tag: String) {
+        _uiState.value = _uiState.value.copy(tags = tag)
+    }
+
     fun handleEvent(event: TimeEvent) {
         when (event) {
             is TimeEvent.OnShowTimerDialog -> showDialog()
@@ -96,9 +107,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 event.minutes,
                 event.seconds
             )
-            TimeEvent.StartTimer -> {
+            is TimeEvent.StartTimer -> {
                 startCountDown()
             }
+            is TimeEvent.CancelTimer -> {
+                cancelTimer()
+            }
+            is TimeEvent.OnTagChanged -> tagChange(event.tag)
         }
     }
 

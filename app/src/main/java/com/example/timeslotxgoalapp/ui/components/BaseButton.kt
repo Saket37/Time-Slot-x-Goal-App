@@ -15,17 +15,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.timeslotxgoalapp.ui.theme.ActiveButtonColor
 import com.example.timeslotxgoalapp.ui.theme.DisabledButtonColor
+import com.example.timeslotxgoalapp.ui.theme.EndButtonColor
 
 @Composable
-fun StartButton(
+fun BaseButton(
     modifier: Modifier = Modifier,
-    buttonText: String,
     onClick: () -> Unit,
-    enableStartButton: Boolean
+    enableStartButton: Boolean, isRunning: Boolean
 ) {
-    val buttonColor = if (enableStartButton) {
-        ActiveButtonColor
-    } else DisabledButtonColor
+    val buttonColor = if (isRunning) {
+        EndButtonColor
+    } else ActiveButtonColor
+
+    val buttonText = if (isRunning) "END" else "START"
     Button(
         modifier = modifier
             .fillMaxWidth()
@@ -49,9 +51,8 @@ fun StartButton(
 @Preview
 @Composable
 fun BaseButtonPreview() {
-    StartButton(
-        buttonText = "START",
+    BaseButton(
         onClick = {},
-        enableStartButton = false
+        enableStartButton = false, isRunning = false
     )
 }

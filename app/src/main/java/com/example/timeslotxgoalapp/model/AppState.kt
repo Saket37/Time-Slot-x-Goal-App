@@ -8,8 +8,10 @@ data class AppState(
     var progress: Float = 0f,
     var time: String = "00:00:00",
     var showDialog: Boolean = false,
+    var tags: String = "Select Tag",
+    val percentage: String = ""
 ) {
     fun isDisabled(): Boolean {
-        return time != "00:00:00"
+        return time != "00:00:00" && tags != "Select Tag"
     }
 }
