@@ -26,10 +26,10 @@ fun Timer(
     modifier: Modifier = Modifier, onclick: () -> Unit, timerText: String, timerProgress: Float
 ) {
 
-    /*val animatedProgress by animateFloatAsState(
+    val animatedProgress by animateFloatAsState(
         targetValue = timerProgress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )*/
+    )
 
     Box(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun Timer(
                 .size(250.dp)
                 .clickable { onclick() },
             color = ActiveButtonColor,
-            progress = timerProgress,
+            progress = animatedProgress,
             strokeWidth = 6.dp,
             backgroundColor = DescriptionTextColor.copy(.2f)
         )

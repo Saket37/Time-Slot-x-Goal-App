@@ -1,7 +1,9 @@
 package com.example.timeslotxgoalapp.viewModel
 
+import android.media.MediaPlayer
 import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
+import com.example.timeslotxgoalapp.helper.PlayCompletedAudio
 import com.example.timeslotxgoalapp.helper.formatHourMinuteSecond
 import com.example.timeslotxgoalapp.model.AppState
 import com.example.timeslotxgoalapp.utlis.Constants.MINUTES_IN_HOUR
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel @Inject constructor(private val mediaPlayer: PlayCompletedAudio) : ViewModel() {
     private var countDownTimer: CountDownTimer? = null
 
     // TODO move string to strings xml and call them in viewModel
@@ -58,6 +60,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 _uiState.value = _uiState.value.copy(
                     isRunning = false, progress = 1f, buttonText = "New Goal", hasFinished = true
                 )
+                mediaPlayer.playSound()
             }
 
         }.start()
