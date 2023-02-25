@@ -1,5 +1,8 @@
 package com.example.timeslotxgoalapp.model
 
+import androidx.annotation.StringRes
+import com.example.timeslotxgoalapp.R
+
 data class AppState(
     val isRunning: Boolean = false,
     var seconds: Int = 0,
@@ -9,7 +12,7 @@ data class AppState(
     var time: String = "00:00:00",
     var showDialog: Boolean = false,
     var tags: String = "Select Tag",
-    val buttonText: String = "START",
+    @StringRes val buttonText: Int = R.string.start_button_text,
     val hasFinished: Boolean = false,
     val initialStartTime: String = ""
 ) {

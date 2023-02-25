@@ -5,4 +5,8 @@
     <string name="started_timer_text">Great going! You’ve completed %s of your goal</string>
     <string name="completed_timer_goal">Well done! You’ve achieved your goal.</string>
     <string name="goals_text">%s for %s</string>
+    <string name="select_tag">Select Tag</string>
+    <string name="end_button_text">END</string>
+    <string name="start_button_text">START</string>
+    <string name="completed_button_text">NEW GOAL</string>
 </resources>

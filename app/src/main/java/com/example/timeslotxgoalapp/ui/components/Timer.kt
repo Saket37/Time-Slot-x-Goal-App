@@ -34,9 +34,8 @@ fun Timer(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-        //.padding(40.dp)
-        , contentAlignment = Alignment.Center
+            .wrapContentHeight(),
+        contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             modifier = Modifier

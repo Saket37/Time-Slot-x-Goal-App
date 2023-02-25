@@ -1,8 +1,9 @@
 package com.example.timeslotxgoalapp.viewModel
 
-import android.media.MediaPlayer
 import android.os.CountDownTimer
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
+import com.example.timeslotxgoalapp.R
 import com.example.timeslotxgoalapp.helper.PlayCompletedAudio
 import com.example.timeslotxgoalapp.helper.formatHourMinuteSecond
 import com.example.timeslotxgoalapp.model.AppState
@@ -19,7 +20,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val mediaPlayer: PlayCompletedAudio) : ViewModel() {
     private var countDownTimer: CountDownTimer? = null
 
-    // TODO move string to strings xml and call them in viewModel
     private val _uiState = MutableStateFlow(AppState())
     val uiState get() = _uiState
 
@@ -52,13 +52,16 @@ class MainViewModel @Inject constructor(private val mediaPlayer: PlayCompletedAu
                     isRunning = true,
                     progress = 1f - ((millisUntilFinished - 1000).toFloat() / totalTime),
                     time = formatHourMinuteSecond(hours, minutes, secs),
-                    buttonText = "END",
+                    buttonText = R.string.end_button_text,
                 )
             }
 
             override fun onFinish() {
                 _uiState.value = _uiState.value.copy(
-                    isRunning = false, progress = 1f, buttonText = "New Goal", hasFinished = true
+                    isRunning = false,
+                    progress = 1f,
+                    buttonText = R.string.completed_button_text,
+                    hasFinished = true
                 )
                 mediaPlayer.playSound()
             }
@@ -76,7 +79,7 @@ class MainViewModel @Inject constructor(private val mediaPlayer: PlayCompletedAu
             time = "00:00:00",
             progress = 0f,
             tags = "Select Tag",
-            buttonText = "START"
+            buttonText = R.string.start_button_text
         )
         countDownTimer = null
     }
@@ -91,7 +94,7 @@ class MainViewModel @Inject constructor(private val mediaPlayer: PlayCompletedAu
             time = "00:00:00",
             progress = 0f,
             tags = "Select Tag",
-            buttonText = "START", hasFinished = false
+            buttonText = R.string.start_button_text, hasFinished = false
         )
     }
 

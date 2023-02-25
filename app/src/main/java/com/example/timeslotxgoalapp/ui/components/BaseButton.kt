@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.timeslotxgoalapp.R
 import com.example.timeslotxgoalapp.ui.theme.ActiveButtonColor
 import com.example.timeslotxgoalapp.ui.theme.DisabledButtonColor
 import com.example.timeslotxgoalapp.ui.theme.EndButtonColor
@@ -25,7 +27,7 @@ fun BaseButton(
     onClick: () -> Unit,
     enableStartButton: Boolean,
     isRunning: Boolean,
-    buttonText: String,
+    buttonText: Int,
     hasCompleted: Boolean,
     newGoalClick: () -> Unit
 ) {
@@ -48,7 +50,7 @@ fun BaseButton(
     ) {
         Text(
             modifier = Modifier.padding(vertical = 2.dp),
-            text = buttonText,
+            text = stringResource(id = buttonText),
             fontSize = 16.sp,
             fontWeight = FontWeight(700),
             color = Color.White
@@ -61,6 +63,10 @@ fun BaseButton(
 fun BaseButtonPreview() {
     BaseButton(
         onClick = {},
-        enableStartButton = false, isRunning = false, buttonText = "START", hasCompleted = false, newGoalClick = {}
+        enableStartButton = false,
+        isRunning = false,
+        buttonText = R.string.start_button_text,
+        hasCompleted = false,
+        newGoalClick = {}
     )
 }
