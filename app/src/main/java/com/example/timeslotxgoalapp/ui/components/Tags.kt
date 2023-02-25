@@ -16,9 +16,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.timeslotxgoalapp.R
 import com.example.timeslotxgoalapp.ui.theme.DescriptionTextColor
 
 val list = listOf("Study Physics", "Study Chemistry", "Study Maths", "Study English")
@@ -26,7 +28,7 @@ val list = listOf("Study Physics", "Study Chemistry", "Study Maths", "Study Engl
 @Composable
 fun TagDescriptionText() {
     Text(
-        text = "Select a tag for your time slot:",
+        text = stringResource(id = R.string.tag_time_slot_text),
         fontSize = 16.sp,
         fontWeight = FontWeight(400),
         color = DescriptionTextColor

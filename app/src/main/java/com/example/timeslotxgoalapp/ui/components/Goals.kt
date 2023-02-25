@@ -22,7 +22,7 @@ fun Goals(tag: String, timerText: String) {
         Text(
             text = stringResource(id = R.string.goals_text, tag, timerText),
             fontSize = 18.sp,
-            fontWeight = FontWeight(700)
+            fontWeight = FontWeight(700), color = DescriptionTextColor,
         )
     }
 }

@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.sp
 import com.example.timeslotxgoalapp.ui.theme.ActiveButtonColor
 import com.example.timeslotxgoalapp.ui.theme.DescriptionTextColor
 import com.example.timeslotxgoalapp.R
+import com.example.timeslotxgoalapp.ui.theme.ProgressBackgroundColor
+import com.example.timeslotxgoalapp.ui.theme.ProgressColor
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -41,10 +43,10 @@ fun Timer(
             modifier = Modifier
                 .size(250.dp)
                 .clickable { onclick() },
-            color = ActiveButtonColor,
+            color = ProgressColor,
             progress = animatedProgress,
             strokeWidth = 6.dp,
-            backgroundColor = DescriptionTextColor.copy(.2f)
+            backgroundColor = ProgressBackgroundColor
         )
         Text(
             text = timerText,
@@ -71,7 +73,7 @@ fun TimerText(
         ) else stringResource(
             id = R.string.enabled_timer_text, tag, timerText
         )
-    Text(text = text)
+    Text(text = text, fontWeight = FontWeight(400))
 
 }
 

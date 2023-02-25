@@ -9,4 +9,5 @@
     <string name="end_button_text">END</string>
     <string name="start_button_text">START</string>
     <string name="completed_button_text">NEW GOAL</string>
+    <string name="tag_time_slot_text">Select a tag for your time slot:</string>
 </resources>
