@@ -23,7 +23,11 @@ import com.example.timeslotxgoalapp.ui.theme.EndButtonColor
 fun BaseButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    enableStartButton: Boolean, isRunning: Boolean, buttonText: String, hasCompleted: Boolean
+    enableStartButton: Boolean,
+    isRunning: Boolean,
+    buttonText: String,
+    hasCompleted: Boolean,
+    newGoalClick: () -> Unit
 ) {
 
     val buttonColor = if (isRunning) {
@@ -38,7 +42,8 @@ fun BaseButton(
             buttonColor,
             disabledBackgroundColor = DisabledButtonColor
         ), onClick = {
-            onClick()
+            if (hasCompleted) newGoalClick() else
+                onClick()
         }, enabled = enableStartButton
     ) {
         Text(
@@ -56,6 +61,6 @@ fun BaseButton(
 fun BaseButtonPreview() {
     BaseButton(
         onClick = {},
-        enableStartButton = false, isRunning = false, buttonText = "START", hasCompleted = false
+        enableStartButton = false, isRunning = false, buttonText = "START", hasCompleted = false, newGoalClick = {}
     )
 }

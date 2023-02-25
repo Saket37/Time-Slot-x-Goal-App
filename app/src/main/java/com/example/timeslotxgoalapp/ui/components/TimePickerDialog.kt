@@ -18,7 +18,7 @@ fun TimePickerDialog(onStartClicked: (it: List<Int>) -> Unit, setShowDialog: (Bo
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color.Yellow
+            color = Color.White
         ) {
             Box(
                 contentAlignment = Alignment.Center

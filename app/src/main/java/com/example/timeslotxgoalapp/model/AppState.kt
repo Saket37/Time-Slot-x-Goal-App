@@ -14,7 +14,7 @@ data class AppState(
     val initialStartTime: String = ""
 ) {
     fun isDisabled(): Boolean {
-        return time != "00:00:00" && tags != "Select Tag"
+        return time != "00:00:00" && tags != "Select Tag" || hasFinished
     }
     //TODO Enable New goal button
 }

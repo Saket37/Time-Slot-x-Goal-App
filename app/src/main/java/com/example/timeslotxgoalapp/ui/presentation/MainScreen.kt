@@ -29,9 +29,7 @@ fun MainScreenContent(uiState: AppState, handleEvent: (event: TimeEvent) -> Unit
         TimePickerDialog(setShowDialog = { uiState.showDialog = it }, onStartClicked = {
             handleEvent(
                 TimeEvent.OnCancelTimeDialog(
-                    hour = it[0],
-                    minutes = it[1],
-                    seconds = it[2]
+                    hour = it[0], minutes = it[1], seconds = it[2]
                 )
             )
             Log.d("TIME", it.toString())
@@ -49,10 +47,13 @@ fun MainScreenContent(uiState: AppState, handleEvent: (event: TimeEvent) -> Unit
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(horizontal = 10.dp)
         ) {
+            // TODO disable on click timer when it has completed
             Timer(
-                onclick = { if (!uiState.isRunning) handleEvent(TimeEvent.OnShowTimerDialog) },
-                timerText = uiState.time,
-                timerProgress = uiState.progress
+                onclick = {
+                    if (!uiState.isRunning) handleEvent(
+                        TimeEvent.OnShowTimerDialog
+                    )
+                }, timerText = uiState.time, timerProgress = uiState.progress
             )
             Spacer(modifier = Modifier.height(24.dp))
             if (uiState.hasFinished) {
@@ -84,11 +85,15 @@ fun MainScreenContent(uiState: AppState, handleEvent: (event: TimeEvent) -> Unit
                 ) {
                     if (!uiState.isRunning) {
                         handleEvent(TimeEvent.StartTimer)
-                    } else handleEvent(TimeEvent.CancelTimer)
+                    } else handleEvent(
+                        TimeEvent.CancelTimer
+                    )
                 }
             },
             enableStartButton = uiState.isDisabled(),
-            isRunning = uiState.isRunning, hasCompleted = uiState.hasFinished
+            isRunning = uiState.isRunning,
+            hasCompleted = uiState.hasFinished,
+            newGoalClick = { handleEvent(TimeEvent.OnNewGoalClicked) }
         )
     }
 }

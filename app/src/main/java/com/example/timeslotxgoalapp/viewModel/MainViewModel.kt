@@ -2,17 +2,21 @@ package com.example.timeslotxgoalapp.viewModel
 
 import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
+import com.example.timeslotxgoalapp.helper.formatHourMinuteSecond
 import com.example.timeslotxgoalapp.model.AppState
+import com.example.timeslotxgoalapp.utlis.Constants.MINUTES_IN_HOUR
+import com.example.timeslotxgoalapp.utlis.Constants.MSECS_IN_SEC
+import com.example.timeslotxgoalapp.utlis.Constants.SECS_IN_MINUTES
 import com.example.timeslotxgoalapp.utlis.TimeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
     private var countDownTimer: CountDownTimer? = null
+
     // TODO move string to strings and call them in viewModel
     private val _uiState = MutableStateFlow(AppState())
     val uiState get() = _uiState
@@ -43,30 +47,22 @@ class MainViewModel @Inject constructor() : ViewModel() {
                     _uiState.value = _uiState.value.copy(hours = hours)
                 }
                 // TODO handle progress value correctly
-                _uiState.value =
-                    _uiState.value.copy(
-                        isRunning = true,
-                        progress = 1f - millisUntilFinished.toFloat() / totalTime.toFloat(),
-                        time = formatHourMinuteSecond(hours, minutes, secs),
-                        buttonText = "END",
-                    )
+                _uiState.value = _uiState.value.copy(
+                    isRunning = true,
+                    progress = 1f - millisUntilFinished.toFloat() / totalTime.toFloat(),
+                    time = formatHourMinuteSecond(hours, minutes, secs),
+                    buttonText = "END",
+                )
             }
 
             override fun onFinish() {
-                _uiState.value =
-                    _uiState.value.copy(
-                        isRunning = false,
-                        progress = 1f,
-                        buttonText = "New Goal",
-                        hasFinished = true
-                    )
+                _uiState.value = _uiState.value.copy(
+                    isRunning = false, progress = 1f, buttonText = "New Goal", hasFinished = true
+                )
             }
 
         }.start()
     }
-
-    private fun formatHourMinuteSecond(hours: Int, minutes: Int, seconds: Int) =
-        String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
     private fun cancelTimer() {
         countDownTimer?.cancel()
@@ -76,7 +72,24 @@ class MainViewModel @Inject constructor() : ViewModel() {
             hours = 0,
             minutes = 0,
             time = "00:00:00",
-            progress = 0f, tags = "Select Tag", buttonText = "START"
+            progress = 0f,
+            tags = "Select Tag",
+            buttonText = "START"
+        )
+        countDownTimer = null
+    }
+
+    private fun newGoal() {
+        countDownTimer?.cancel()
+        countDownTimer = null
+        _uiState.value = _uiState.value.copy(
+            isRunning = false, seconds = 0,
+            hours = 0,
+            minutes = 0,
+            time = "00:00:00",
+            progress = 0f,
+            tags = "Select Tag",
+            buttonText = "START", hasFinished = false
         )
     }
 
@@ -112,9 +125,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
         when (event) {
             is TimeEvent.OnShowTimerDialog -> showDialog()
             is TimeEvent.OnCancelTimeDialog -> cancelDialog(
-                event.hour,
-                event.minutes,
-                event.seconds
+                event.hour, event.minutes, event.seconds
             )
             is TimeEvent.StartTimer -> {
                 startCountDown()
@@ -123,13 +134,10 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 cancelTimer()
             }
             is TimeEvent.OnTagChanged -> tagChange(event.tag)
-            is TimeEvent.OnNewGoalClicked -> {}
+            is TimeEvent.OnNewGoalClicked -> {
+                newGoal()
+            }
         }
     }
 
-    companion object {
-        const val MINUTES_IN_HOUR = 60
-        const val SECS_IN_MINUTES = 60
-        const val MSECS_IN_SEC = 1000
-    }
 }

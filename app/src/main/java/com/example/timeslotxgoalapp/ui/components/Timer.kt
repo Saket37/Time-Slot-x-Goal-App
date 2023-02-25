@@ -48,7 +48,6 @@ fun Timer(
     }
 }
 
-// TODO calculate percentage
 @Composable
 fun TimerText(
     isEnabled: Boolean,
