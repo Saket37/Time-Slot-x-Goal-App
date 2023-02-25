@@ -42,7 +42,7 @@ fun BaseButton(
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
             buttonColor,
-            disabledBackgroundColor = DisabledButtonColor
+            disabledBackgroundColor = DisabledButtonColor.copy(0.20f)
         ), onClick = {
             if (hasCompleted) newGoalClick() else
                 onClick()

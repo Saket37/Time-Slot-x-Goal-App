@@ -46,7 +46,7 @@ fun Timer(
             color = ProgressColor,
             progress = animatedProgress,
             strokeWidth = 6.dp,
-            backgroundColor = ProgressBackgroundColor
+            backgroundColor = ProgressBackgroundColor.copy(.2f)
         )
         Text(
             text = timerText,
@@ -79,7 +79,7 @@ fun TimerText(
 
 @Composable
 fun CompletedTimerText() {
-    Text(text = stringResource(id = R.string.completed_timer_goal))
+    Text(text = stringResource(id = R.string.completed_timer_goal),fontWeight = FontWeight(400))
 }
 
 @Preview
