@@ -47,10 +47,9 @@ fun MainScreenContent(uiState: AppState, handleEvent: (event: TimeEvent) -> Unit
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(horizontal = 10.dp)
         ) {
-            // TODO disable on click timer when it has completed
             Timer(
                 onclick = {
-                    if (!uiState.isRunning) handleEvent(
+                    if (!uiState.disableTimerClick()) handleEvent(
                         TimeEvent.OnShowTimerDialog
                     )
                 }, timerText = uiState.time, timerProgress = uiState.progress

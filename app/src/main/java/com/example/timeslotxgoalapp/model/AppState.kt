@@ -16,5 +16,8 @@ data class AppState(
     fun isDisabled(): Boolean {
         return time != "00:00:00" && tags != "Select Tag" || hasFinished
     }
-    //TODO Enable New goal button
+
+    fun disableTimerClick(): Boolean {
+        return isRunning || (!isRunning && hasFinished)
+    }
 }

@@ -17,7 +17,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor() : ViewModel() {
     private var countDownTimer: CountDownTimer? = null
 
-    // TODO move string to strings and call them in viewModel
+    // TODO move string to strings xml and call them in viewModel
     private val _uiState = MutableStateFlow(AppState())
     val uiState get() = _uiState
 
@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 //Seconds
                 val secs = (millisUntilFinished / MSECS_IN_SEC % SECS_IN_MINUTES).toInt()
                 if (secs != _uiState.value.seconds) {
-                    _uiState.value = _uiState.value
+                    _uiState.value = _uiState.value.copy(seconds = secs)
                 }
                 // Minutes
                 val minutes =
@@ -46,10 +46,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 if (hours != _uiState.value.hours) {
                     _uiState.value = _uiState.value.copy(hours = hours)
                 }
-                // TODO handle progress value correctly
                 _uiState.value = _uiState.value.copy(
                     isRunning = true,
-                    progress = 1f - millisUntilFinished.toFloat() / totalTime.toFloat(),
+                    progress = 1f - ((millisUntilFinished - 1000).toFloat() / totalTime),
                     time = formatHourMinuteSecond(hours, minutes, secs),
                     buttonText = "END",
                 )
